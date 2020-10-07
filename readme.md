@@ -12,4 +12,4 @@
 
 Для запуска скачать репозиторий, выполнить go build из его корневой директории, запустить файл main.exe. 
 # Подписка
-Для подписки необходимо выполнить GET запрос вида http://localhost:5000/api/subscribe?url=<item_url>&email=<mail>
+Для подписки необходимо выполнить GET запрос вида http://localhost:5000/api/subscribe?url=item_rul&email=mail
