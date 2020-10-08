@@ -2,15 +2,21 @@ package dbmanager
 
 import (
 	"database/sql"
+	"fmt"
 
 	_ "github.com/mattn/go-sqlite3"
 )
 
 var db *sql.DB
 
+func base() {
+	fmt.Println("init")
+}
+
 func Connect(path string) {
 	var err error
 	db, err = sql.Open("sqlite3", path+"Avito.db")
+
 	if err != nil {
 		panic(err)
 	}
