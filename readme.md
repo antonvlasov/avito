@@ -5,7 +5,7 @@
 * покрытие тестами
 
 # Схема сервиса
-![Схема](https://raw.githubusercontent.com/antonvlasov/avito/master/avito_diagram.png)
+![Схема](https://raw.githubusercontent.com/antonvlasov/avito/master/schema.png)
 
 # Описание работы
 Сервис запускает HTTP сервер, контактирующий с пользователями и handler, который обновляет информацию в базе данных. HTTP сервер обрабатывает
