@@ -5,14 +5,20 @@ import (
 	"io/ioutil"
 	"log"
 	"net/smtp"
+	"os"
 	"strings"
 )
 
 var usr, pswd string
 
 func init() {
+	path, err := os.Executable()
+	if err != nil {
+		log.Println(err)
+	}
+	fmt.Println(path)
 	var input []byte
-	input, err := ioutil.ReadFile("./resources/mail_data.txt")
+	input, err = ioutil.ReadFile("../resources/mail_data.txt")
 	if err != nil {
 		log.Fatal("could not read mail data")
 	}
@@ -23,19 +29,30 @@ func init() {
 	usr = s[0]
 	pswd = s[1]
 }
-func Notify(mail, url string, price float64) {
-	ps := fmt.Sprintf("%v", price)
+func Notify(mail, url string, price float64) error {
+	var ps string
+	if price < 0 {
+		ps = "has been deleted"
+	} else {
+		ps = fmt.Sprintf("now costs %v", price)
+	}
+	message := "Item: " + url + ps
+	return sendMail(mail, message)
+}
+func SendVerificationLink(mail, link string) error {
+	message := fmt.Sprint("To verify your mail for avito price subscription please follow the link: ", link)
+	return sendMail(mail, message)
+}
+func sendMail(reciever string, message string) error {
 	auth := smtp.PlainAuth("", usr, pswd, "smtp.gmail.com")
-
-	// Connect to the server, authenticate, set the sender and recipient,
-	// and send the email all in one step.
-	to := []string{mail}
-	msg := []byte("To: " + mail + "\r\n" +
-		"Subject: Change of price\r\n" +
+	to := []string{reciever}
+	msg := []byte("To: " + reciever + "\r\n" +
+		"Subject: Price subscription\r\n" +
 		"\r\n" +
-		"Price on item: " + url + " now costs " + ps + "\r\n")
+		message + "\r\n")
 	err := smtp.SendMail("smtp.gmail.com:25", auth, usr, to, msg)
 	if err != nil {
-		fmt.Println(err)
+		return err
 	}
+	return nil
 }
