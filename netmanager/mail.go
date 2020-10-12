@@ -32,9 +32,9 @@ func init() {
 func Notify(mail, url string, price float64) error {
 	var ps string
 	if price < 0 {
-		ps = "has been deleted"
+		ps = " has been deleted"
 	} else {
-		ps = fmt.Sprintf("now costs %v", price)
+		ps = fmt.Sprintf(" now costs %v", price)
 	}
 	message := "Item: " + url + ps
 	return sendMail(mail, message)
